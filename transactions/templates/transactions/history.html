@@ -1,0 +1,75 @@
+{% extends 'transactions/layout.html' %}
+{% load static %}
+<!--adds comma like 1,300-->
+{% load humanize %}
+{% block content %}
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #DDD;
+    }
+    tr:hover {background-color: #D6EEEE;}
+</style>
+
+<div class="container">
+    {% if page %}
+        <h4 class="pt-5">Transactions</h4>
+        <table>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Date</th>
+
+            {% for instance in page %}
+                  <tr>
+                    <td>{{instance.category}}</td>
+                    <td> {{instance.description}}</td>
+                    <td>-${{instance.amount|intcomma}}</td>
+                    <td>{{instance.date}}</td>
+                    <td><a href="{{ instance.get_absolute_url }}"><i class='far fa-edit' style='font-size:20px; color:grey'></i>
+                        </a></td>
+                    <td><a href="{% url 'transaction-delete' instance.id %}"><i class='far fa-trash-alt' style='font-size:20px; color:grey'></i>
+                        </a></td>
+                  </tr>
+            {% endfor %}
+        </table>
+        <div class="pt-3">
+            {% if page.has_previous %}
+                <a href="?page={{page.previous_page_number}}"
+                class="btn btn-secondary mx-2">Previous</a>
+            {% endif %}
+
+            <a href="?page=1" class="btn btn-secondary">First</a>
+
+            {% for num in page.paginator.page_range %}
+                {% if num == page.number %}
+                    <span>{{ num }}</span>
+                {% else %}
+                    <a href="?page={{num}}" class="btn btn-secondary mx-2">
+                     {{ num }}
+                     </a>
+                {% endif %}
+            {% endfor %}
+
+            <a href="?page={{page.paginator.num_pages}}" class="btn btn-secondary mx-2">
+             Last
+             </a>
+
+            {% if page.has_next %}
+                <a href="?page={{page.next_page_number}}" class="btn btn-secondary mx-2">
+                 Next
+                 </a>
+            {% endif %}
+        </div>
+    {% else %}
+        <h4 class="pt-4">Empty</h4>
+        <p><a href="{% url 'choose-view' %}" class="btn btn-info" role="button">&oplus; Add Transaction
+        </a></p>
+    {% endif %}
+</div>
+{% endblock %}

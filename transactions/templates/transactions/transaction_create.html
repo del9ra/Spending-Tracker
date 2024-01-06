@@ -1,0 +1,11 @@
+{% extends 'transactions/layout.html' %}
+{% block content %}
+<div class="container">
+<!--<p><a style="color: #000" href="{% url 'history' %}">&#8592; Back</a></p>-->
+    <form class="pt-4" action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save" class="btn btn-primary">
+    </form>
+</div>
+{% endblock %}

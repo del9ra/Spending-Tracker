@@ -1,0 +1,87 @@
+{% extends 'transactions/layout.html' %}
+{% load static %}
+<!--adds comma like 1,300-->
+{% load humanize %}
+{% block content %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!--style with padding in .row cause big spaces between forms-->
+<div class="container">
+<div class="row">
+    <div class="col">
+        {% if expenses %}
+            <div id="piechart"></div>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+              var data = google.visualization.arrayToDataTable([
+              ['Category', 'Spent'],
+              {% for expense in expenses %}
+                <!--          as category__title and total_amount are used in views func-->
+              ['{{ expense.category__title }}', {{ expense.total_amount }}],
+              {% endfor %}
+            ]);
+              var options = {'title':'Budget Breakdown', 'width':550, 'height':400};
+              var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+              var formatter = new google.visualization.NumberFormat({prefix: '$'});
+    formatter.format(data, 1);
+              chart.draw(data, options);
+            }
+            </script>
+        {% else %}
+            <h5 class="pt-4">No Transactions in {{ date | date:"F" }}</h5>
+            <img src="{% static 'transactions/pie.jpeg' %}" alt="No Data Image">
+        {% endif %}
+    </div>
+    <div class="col">
+        <p class="pt-4"><small>As of {{ date | date:"F d" }}</small></p>
+        <h6>Your Monthly Income</h6>
+        <p>${{ income|default:"0"|floatformat:2|intcomma }}</p>
+        <h6>Monthly Spending</h6>
+<!--        django floatformat is used instead of f-string in views-->
+        <p>${{ total_spent|default:"0"|floatformat:2|intcomma }}</p>
+        <h6>Monthly Leftover</h6>
+        <p>${{ leftover|default:"0"|floatformat:2|intcomma }}</p>
+
+    </div>
+    <div class="col"><p class="pt-4"><a href="{% url 'choose-view' %}" class="btn btn-info btn-lg" role="button">&oplus; Add Transaction
+    </a></p></div>
+ <div class="container">
+    <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #DDD;
+    }
+    tr:hover {background-color: #D6EEEE;}
+    </style>
+ {% if object_list %}
+    <h4>Transactions</h4>
+    <table>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Date</th>
+
+        {% for instance in object_list %}
+          <tr>
+            <td>{{instance.category}}</td>
+            <td> {{instance.description}}</td>
+            <td>-${{instance.amount|intcomma}}</td>
+            <td>{{instance.date}}</td>
+            <td><a href="{{ instance.get_absolute_url }}"><i class='far fa-edit' style='font-size:20px; color:grey'></i>
+                </a></td>
+            <td><a href="{% url 'transaction-delete' instance.id %}"><i class='far fa-trash-alt' style='font-size:20px; color:grey'></i>
+                </a></td>
+          </tr>
+    {% endfor %}
+    </table>
+     <div class="ps-2"><a style="color: #6082B6" href="{% url 'history' %}">View All Transactions</a></div>
+     {% endif %}
+ </div></div></div>
+{% endblock %}
