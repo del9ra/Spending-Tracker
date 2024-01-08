@@ -32,3 +32,14 @@ This Spending Tracker application helps you calculate your monthly spendings and
 #### Login
 ![Screenshot 2024-01-08 at 16 40 50](https://github.com/del9ra/Spending-Tracker/assets/107867458/2cb1a416-7bd3-45be-bf27-a3188cc32158)
 
+#### Main Page 
+![Screenshot 2024-01-08 at 16 46 49](https://github.com/del9ra/Spending-Tracker/assets/107867458/2d2389ab-23fb-4733-b8b9-d84b31515475)
+
+#### Add a transaction 
+![Screenshot 2024-01-08 at 16 46 01](https://github.com/del9ra/Spending-Tracker/assets/107867458/ef1259e3-fded-4485-8c1a-d873e61d2abc)
+
+#### History of transactions
+![Screenshot 2024-01-08 at 16 50 07](https://github.com/del9ra/Spending-Tracker/assets/107867458/45cac0d4-d75b-423a-97a0-7ba2ef46c188)
+
+#### Monthly Analytics
+![Screenshot 2024-01-08 at 16 50 35](https://github.com/del9ra/Spending-Tracker/assets/107867458/c12b38f1-6950-41ac-8d15-eac1458014e7)
