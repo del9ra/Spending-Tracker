@@ -29,3 +29,6 @@ This Spending Tracker application helps you calculate your monthly spendings and
 - Paginator
 - JavaScript
 
+#### Signup
+(![Screenshot 2024-01-08 at 16 40 50](https://github.com/del9ra/Spending-Tracker/assets/107867458/2cb1a416-7bd3-45be-bf27-a3188cc32158)
+)
