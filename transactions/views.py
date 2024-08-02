@@ -61,14 +61,12 @@ def analytics_view(request):
 
 @login_required
 def choose_view(request):
-    try:
-        # first() method is used with filter(), not get(). It returns the first object of a QuerySet or None
-        MonthlyFinances.objects.filter(user=request.user).first()
-    except MonthlyFinances.DoesNotExist:
-        # otherwise create a new income
+    if MonthlyFinances.objects.filter(user=request.user).first() is None:
+        # If no object exists, redirect to the income creation page
         return redirect('income-create')
-    # If we get here, a MonthlyFinances object exists for the user
-    return redirect('transaction-create')
+    else:
+        # If an object exists, redirect to the transaction creation page
+        return redirect('transaction-create')
 
 
 @login_required
