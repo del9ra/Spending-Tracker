@@ -62,10 +62,8 @@ def analytics_view(request):
 @login_required
 def choose_view(request):
     if MonthlyFinances.objects.filter(user=request.user).first() is None:
-        # If no object exists, redirect to the income creation page
         return redirect('income-create')
     else:
-        # If an object exists, redirect to the transaction creation page
         return redirect('transaction-create')
 
 
